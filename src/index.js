@@ -1,36 +1,38 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-
 import { getToken, clearToken } from "./api";
-import Register from "./components/Register";
-import Login from "./components/Login";
+import { PostForm, Login, Register, NavBar } from './components'
+import {Switch, Route, BrowserRouter as Router} from 'react-router-dom'
 
 const App = () => {
   // a piece of state that represents the status of the current user
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
+  const [allPosts, setAllPosts] = useState([])
+
+  console.log('all posts', allPosts)
 
   return (
     <div className="app">
       {isLoggedIn ? (
         <>
           <h1>Thanks for logging in!</h1>
-          <button
-            onClick={() => {
-              clearToken();
-              setIsLoggedIn(false);
-            }}
-          >
-            LOG OUT
-          </button>
+          <NavBar setIsLoggedIn={setIsLoggedIn}/>
+          <Switch>
+            <Route path="/posts/create" render={() => {
+              return <PostForm allPosts={allPosts} setAllPosts={setAllPosts}/>
+            }}/>
+            {/* <Route path="/posts" render={AllPosts}/> */}
+
+          </Switch>
         </>
       ) : (
-        <>
-          <Register setIsLoggedIn={setIsLoggedIn} />
-          <Login setIsLoggedIn={setIsLoggedIn} />
-        </>
-      )}
+          <>
+            <Register setIsLoggedIn={setIsLoggedIn} />
+            <Login setIsLoggedIn={setIsLoggedIn} />
+          </>
+        )}
     </div>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<Router><App /></Router>, document.getElementById("app"));
