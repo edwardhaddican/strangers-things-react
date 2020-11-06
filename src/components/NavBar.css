@@ -1,0 +1,24 @@
+.nav-bar-container{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(19, 119, 72);
+}
+
+a {
+  color: white;
+}
+
+/* the a tag can be used to target all links.  React-router-dom uses a tags under the hood for their link tags.  therefore you can access the link tags with the a tag. */
+
+.link-container{
+  display: flex;
+}
+
+.link-container div {
+  margin: 0.5rem 1rem;
+}
+
+.logout-button{
+  align-self: flex-end;
+  margin: 0.5rem 1rem;
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { getToken, clearToken } from "./api";
-import { PostForm, Login, Register, NavBar } from './components'
+import { PostForm, AllPosts, SinglePost, Login, Register, NavBar } from './components'
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom'
 
 const App = () => {
@@ -18,10 +18,16 @@ const App = () => {
           <h1>Thanks for logging in!</h1>
           <NavBar setIsLoggedIn={setIsLoggedIn}/>
           <Switch>
-            <Route path="/posts/create" render={() => {
+            <Route exact path="/posts/create" render={() => {
               return <PostForm allPosts={allPosts} setAllPosts={setAllPosts}/>
             }}/>
-            {/* <Route path="/posts" render={AllPosts}/> */}
+            <Route exact path='/posts/:singlepost' render={()=>{
+              return <SinglePost allPosts={allPosts} />
+            }}/>
+            <Route exact path="/posts" render={()=>{
+              return <AllPosts allPosts={allPosts} />
+            }}/>
+
 
           </Switch>
         </>

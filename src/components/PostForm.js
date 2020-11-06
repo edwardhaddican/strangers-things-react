@@ -8,16 +8,14 @@ const BASE_URL =
 
 const PostForm = (props) => {
 
-  const [body, setBody] = useState('Title')
-  const [title, setTitle] = useState('empty')
-  const [price, setPrice] = useState('empty')
-  const [location, setLocation] = useState('no place yet')
+  const [body, setBody] = useState('')
+  const [title, setTitle] = useState('')
+  const [price, setPrice] = useState('')
+  const [location, setLocation] = useState('')
   const [willDeliver, setWillDeliver] = useState(false)
+  const [errMessage, setErrMessage] = useState('')
 
   const myCurrentToken = getToken()
-
-  console.log("token", myCurrentToken)
-
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
@@ -29,7 +27,9 @@ const PostForm = (props) => {
           post: {
             title: title,
             description: body,
-            price: price
+            price: price,
+            location: location,
+            willDeliver: willDeliver
           }
         }, {
         headers: {
@@ -40,22 +40,42 @@ const PostForm = (props) => {
 
       console.log('newPost', newPost)
       setAllPosts([...allPosts, newPost.data.data.post])
-
+      setErrMessage('')
     } catch (err) {
-      console.log(err)
+      console.dir(err.response.data.error.message)
+      setErrMessage(err.response.data.error.message)
+      //need to add funcitonality that if the post fails because of a missing required field that a small banner appears
+
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type='text' value={title} onChange={(event) =>
-        setTitle(event.target.value)} placeholder='title' />
+    <div>
 
-      <input type='text' value={body} onChange={(event) =>
-        setBody(event.target.value)} placeholder='body' />
+      {errMessage ? <p>{errMessage}</p> : null}
 
-      <button type='submit'>Post</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <input type='text' value={title} onChange={(event) =>
+          setTitle(event.target.value)} placeholder='Title' />
+
+        <input type='text' value={body} onChange={(event) =>
+          setBody(event.target.value)} placeholder='Body' />
+
+        <input type='text' value={price} onChange={(event) =>
+          setPrice(event.target.value)} placeholder='Price' />
+
+        <input type='text' value={location} onChange={(event) =>
+          setLocation(event.target.value)} placeholder='Location' />
+
+        <select value={willDeliver} onChange={(event) =>
+          setWillDeliver(event.target.value)}>
+          <option value="true">True</option>
+          <option value='false'>False</option>
+        </select>
+
+        <button type='submit'>Post</button>
+      </form>
+    </div>
   )
 
 }
