@@ -1,28 +1,30 @@
-import react from 'react'
+import react from "react";
 import { clearToken } from "../api";
-import { Link } from 'react-router-dom'
-import "./NavBar.css"
+import { Link } from "react-router-dom";
+import FilterPosts from './FilterPosts'
+import "./NavBar.css";
 
 const NavBar = (props) => {
-
-  const setIsLoggedIn = props.setIsLoggedIn
+  const setIsLoggedIn = props.setIsLoggedIn;
 
   return (
-    <div className='nav-bar-container'>
-      <div className='link-container'>
+    <div className="nav-bar-container">
+      <div className="link-container">
         <div>
-          <Link to="/home" className="nav-item">Home</Link>
+          <Link to="/posts" className="nav-item">
+            All Posts
+          </Link>
         </div>
         <div>
-          <Link to="/posts/create" className="nav-item">New Post</Link>
+          <Link to="/posts/create" className="nav-item">
+            New Post
+          </Link>
         </div>
         <div>
-          <Link to="/posts" className="nav-item">All Posts</Link>
+          <FilterPosts/>
         </div>
-
       </div>
-      <div className='logout-button'>
-
+      <div className="logout-button">
         <button
           onClick={() => {
             clearToken();
@@ -30,11 +32,10 @@ const NavBar = (props) => {
           }}
         >
           LOG OUT
-          </button>
+        </button>
       </div>
     </div>
-  )
+  );
+};
 
-}
-
-export default NavBar
+export default NavBar;

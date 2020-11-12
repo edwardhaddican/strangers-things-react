@@ -41,11 +41,13 @@ const PostForm = (props) => {
 
       setAllPosts([...allPosts, newPost.data.data.post]);
       setErrMessage("");
+
       setTitle('')
       setBody('')
       setPrice('')
       setLocation('')
       setWillDeliver(false)
+
     } catch (err) {
       console.dir(err.response.data.error.message);
       setErrMessage(err.response.data.error.message);
@@ -66,7 +68,7 @@ const PostForm = (props) => {
           className="form_title"
         />
 
-        <input
+        <textarea
           type="text"
           value={body}
           onChange={(event) => setBody(event.target.value)}

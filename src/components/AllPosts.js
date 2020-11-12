@@ -1,12 +1,54 @@
 import Axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { getToken } from "../api";
 import "./AllPosts.css";
-import { PostForm } from "../components";
+import { PostForm, Post } from "../components";
 
 const AllPosts = (props) => {
   const allThePosts = props.allPosts;
   const setAllPosts = props.setAllPosts;
+
+  const BASE_URL =
+    "https://strangers-things.herokuapp.com/api/2007-LSU-RM-WEB-PT";
+
+  const handleDelete = async (postId) => {
+    // evt.preventDefault()
+    const myCurrentToken = getToken();
+
+    console.log("evt in handle delete", postId);
+
+    await Axios.delete(`${BASE_URL}/posts/${postId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${myCurrentToken}`,
+      },
+    });
+
+    setAllPosts(
+      allThePosts.filter((post) => {
+        return post._id != postId;
+      })
+    );
+  };
+
+  const handleResponse = async (content, postId) => {
+    const myCurrentToken = getToken();
+
+    await Axios.post(
+      `${BASE_URL}/posts/${postId}/messages`,
+      {
+        message: {
+          content
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${myCurrentToken}`,
+        },
+      }
+    );
+  };
 
   return (
     <div>
@@ -14,24 +56,16 @@ const AllPosts = (props) => {
 
       <div className="allPosts_Main_Container">
         <div className="allPostsContainer">
-          {allThePosts.reverse().map((post, idx) => {
-            return (
-              <div
-                className="singlePost"
-                key={`${idx}: ${allThePosts.title}`}
-                style={{
-                  border: post.isAuthor ? "5px solid gold" : "2px solid brown",
-                }}
-              >
-                <Link to={`/posts/${post._id}`}>
-                  <h5>
-                    {post.title} {post.location}
-                  </h5>
-                  <p>{post.description}</p>
-                </Link>
-              </div>
-            );
-          })}
+          {allThePosts
+            .sort((a, b) => {
+              const dateA = new Date(a.createdAt);
+              const dateB = new Date(b.createdAt);
+
+              return dateB - dateA;
+            })
+            .map((post, idx) => {
+              return <Post key={`${idx}: ${post.title}`} post={post} handleDelete={handleDelete} handleResponse={handleResponse} />;
+            })}
         </div>
         <div>
           <PostForm allPosts={allThePosts} setAllPosts={setAllPosts} />
