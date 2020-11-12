@@ -1,0 +1,15 @@
+.allPosts_Main_Container{
+  display: flex;
+  flex-direction: row;
+}
+.allPostsContainer{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 75%;
+}
+
+.singlePost{
+  padding: .5rem;
+  margin-bottom: 1rem;
+}

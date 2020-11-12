@@ -1,0 +1,48 @@
+.post_form_main_container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+.form_title{
+  width:80%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form_body{
+  height: 200px;
+  width:80%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form_price{
+  width:80%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form_location{
+  width:80%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.will_deliver_checkbox{
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form_submit_button{
+  width:80%;
+  margin: 1rem;
+}
