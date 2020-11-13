@@ -11,7 +11,6 @@ const AllPosts = (props) => {
     "https://strangers-things.herokuapp.com/api/2007-LSU-RM-WEB-PT";
 
   const handleDelete = async (postId) => {
-    // evt.preventDefault()
     const myCurrentToken = getToken();
 
     await Axios.delete(`${BASE_URL}/posts/${postId}`, {
