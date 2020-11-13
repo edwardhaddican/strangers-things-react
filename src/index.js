@@ -54,12 +54,14 @@ const App = () => {
     setAllPosts(allFetchedPosts.data.data.posts)
   }, []);
 
+  console.log('searchTerm', searchTerm)
+
   return (
     <div className="app">
       {isLoggedIn ? (
         <>
           <h1>Thanks for logging in!</h1>
-          <NavBar setIsLoggedIn={setIsLoggedIn} />
+          <NavBar setIsLoggedIn={setIsLoggedIn} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           <Switch>
             <Route
               exact
@@ -81,7 +83,7 @@ const App = () => {
               exact
               path="/posts"
               render={() => {
-                return <AllPosts allPosts={allPosts} setAllPosts={setAllPosts}/>;
+                return <AllPosts allPosts={allPosts} setAllPosts={setAllPosts} searchTerm={searchTerm}/>;
               }}
             />
           </Switch>

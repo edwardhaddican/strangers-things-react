@@ -5,7 +5,7 @@ import FilterPosts from './FilterPosts'
 import "./NavBar.css";
 
 const NavBar = (props) => {
-  const setIsLoggedIn = props.setIsLoggedIn;
+  const {searchTerm, setSearchTerm, setIsLoggedIn} = props
 
   return (
     <div className="nav-bar-container">
@@ -21,7 +21,7 @@ const NavBar = (props) => {
           </Link>
         </div>
         <div>
-          <FilterPosts/>
+          <FilterPosts searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         </div>
       </div>
       <div className="logout-button">

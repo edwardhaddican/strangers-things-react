@@ -1,9 +1,18 @@
-import react from 'react'
+import React from "react";
 
 const FilterPosts = (props) => {
-  return(
-    <h3>Filtered posts go here</h3>
-  )
-}
+  const { searchTerm, setSearchTerm } = props;
 
-export default FilterPosts
+  return (
+    <input
+      type="text"
+      placeholder="Filter Posts"
+      value={searchTerm}
+      onChange={(event) => {
+        setSearchTerm(event.target.value);
+      }}
+    ></input>
+  );
+};
+
+export default FilterPosts;

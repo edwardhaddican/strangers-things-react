@@ -5,8 +5,7 @@ import "./AllPosts.css";
 import { PostForm, Post } from "../components";
 
 const AllPosts = (props) => {
-  const allThePosts = props.allPosts;
-  const setAllPosts = props.setAllPosts;
+  const { searchTerm, allPosts, setAllPosts } = props;
 
   const BASE_URL =
     "https://strangers-things.herokuapp.com/api/2007-LSU-RM-WEB-PT";
@@ -14,8 +13,6 @@ const AllPosts = (props) => {
   const handleDelete = async (postId) => {
     // evt.preventDefault()
     const myCurrentToken = getToken();
-
-    console.log("evt in handle delete", postId);
 
     await Axios.delete(`${BASE_URL}/posts/${postId}`, {
       headers: {
@@ -25,7 +22,7 @@ const AllPosts = (props) => {
     });
 
     setAllPosts(
-      allThePosts.filter((post) => {
+      allPosts.filter((post) => {
         return post._id != postId;
       })
     );
@@ -38,7 +35,7 @@ const AllPosts = (props) => {
       `${BASE_URL}/posts/${postId}/messages`,
       {
         message: {
-          content
+          content,
         },
       },
       {
@@ -56,7 +53,19 @@ const AllPosts = (props) => {
 
       <div className="allPosts_Main_Container">
         <div className="allPostsContainer">
-          {allThePosts
+          {allPosts
+            .filter((post) => {
+              if (!searchTerm) {
+                return true;
+              }
+              if (
+                post.description.includes(searchTerm) ||
+                post.title.includes(searchTerm)
+              ) {
+                return true;
+              }
+              return false;
+            })
             .sort((a, b) => {
               const dateA = new Date(a.createdAt);
               const dateB = new Date(b.createdAt);
@@ -64,11 +73,18 @@ const AllPosts = (props) => {
               return dateB - dateA;
             })
             .map((post, idx) => {
-              return <Post key={`${idx}: ${post.title}`} post={post} handleDelete={handleDelete} handleResponse={handleResponse} />;
+              return (
+                <Post
+                  key={`${idx}: ${post.title}`}
+                  post={post}
+                  handleDelete={handleDelete}
+                  handleResponse={handleResponse}
+                />
+              );
             })}
         </div>
         <div>
-          <PostForm allPosts={allThePosts} setAllPosts={setAllPosts} />
+          <PostForm allPosts={allPosts} setAllPosts={setAllPosts} />
         </div>
       </div>
     </div>
